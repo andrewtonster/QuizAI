@@ -45,12 +45,15 @@ export async function POST(req: Request, res: Response) {
       type,
     });
 
-    if (data.status == 422) {
-      return NextResponse.json({
-        message:
-          "AI failed to understand topic, please be more specific or try a different topic",
-        status: 422,
-      });
+    console.log(data.status);
+    if (data.status === 422) {
+      console.log("in error mode");
+      //   return NextResponse.json({
+      //     message:
+      //       "AI failed to understand topic, please be more specific or try a different topic",
+      //     status: 422,
+      //   });
+      throw new Error("Ai Could not understand");
     }
 
     if (type == "mcq") {
@@ -106,8 +109,10 @@ export async function POST(req: Request, res: Response) {
 
     return NextResponse.json({
       gameId: game.id,
+      status: 200,
     });
   } catch (error) {
+    console.log("In error catching");
     if (error instanceof ZodError) {
       return NextResponse.json({ error: error.issues }, { status: 400 });
     }

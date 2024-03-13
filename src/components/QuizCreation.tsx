@@ -42,6 +42,9 @@ const QuizCreation = (props: Props) => {
   const [finished, setFinished] = React.useState(false);
   const router = useRouter();
   const { toast } = useToast();
+
+  // Hook to make api calls
+  // function that preforms mutation is passed
   const { mutate: getQuestions, isLoading } = useMutation({
     mutationFn: async ({ amount, topic, type }: Input) => {
       const response = await axios.post("/api/game", {
@@ -49,6 +52,13 @@ const QuizCreation = (props: Props) => {
         topic,
         type,
       });
+
+      console.log("hello from mutate function");
+      console.log(response.status);
+
+      if (response.status !== 200) {
+        throw new Error();
+      }
 
       return response.data;
     },
@@ -76,25 +86,20 @@ const QuizCreation = (props: Props) => {
         onSuccess: ({ gameId }) => {
           setFinished(true);
           setTimeout(() => {
-            if (form.getValues("type") == "open_ended") {
-              router.push(`/play/open-ended/${gameId}`);
-            } else {
-              router.push(`/play/mcq/${gameId}`);
-            }
+            router.push(`/play/mcq/${gameId}`);
           }, 1000);
         },
         onError: (error) => {
-          if (
-            error.message ===
-            "AI failed to understand topic, please be more specific or try a different topic"
-          ) {
-            toast({
-              title: "Wrong!",
-              description:
-                "AI failed to understand topic, please be more specific or try a different topic",
-              variant: "destructive",
-            });
-          }
+          console.log("I am in the error zone");
+          console.log(error);
+
+          toast({
+            title: "Wrong!",
+            description:
+              "AI failed to understand topic, please be more specific or try a different topic",
+            variant: "destructive",
+          });
+
           setShowLoader(false);
         },
       }
@@ -146,7 +151,7 @@ const QuizCreation = (props: Props) => {
                           form.setValue("amount", parseInt(e.target.value));
                         }}
                         min={1}
-                        max={10}
+                        max={5}
                       />
                     </FormControl>
                     <FormDescription>
@@ -157,34 +162,6 @@ const QuizCreation = (props: Props) => {
                   </FormItem>
                 )}
               />
-
-              <div className="flex justify-between">
-                {/* <Button
-                  //   variant={
-                  //     form.getValues("type") === "mcq" ? "default" : "secondary"
-                  //   }
-                  className="w-1/2 rounded-none rounded-l-lg"
-                  onClick={() => {
-                    form.setValue("type", "mcq");
-                  }}
-                  type="button"
-                >
-                  <CopyCheck className="w-4 h-4 mr-2" /> Multiple Choice
-                </Button>
-                <Separator orientation="vertical" /> */}
-                {/* <Button
-                  variant={
-                    form.getValues("type") === "open_ended"
-                      ? "default"
-                      : "secondary"
-                  }
-                  className="w-1/2 rounded-none rounded-r-lg"
-                  onClick={() => form.setValue("type", "open_ended")}
-                  type="button"
-                >
-                  <BookOpen className="w-4 h-4 mr-2" /> Open Ended
-                </Button> */}
-              </div>
 
               <Button
                 disabled={isLoading}
