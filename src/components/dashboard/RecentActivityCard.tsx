@@ -31,7 +31,7 @@ const RecentActivityCard = async (props: Props) => {
         <CardTitle className="text-2xl font-bold">
           <Link href="/history">Recent Activity</Link>
         </CardTitle>
-        <FileBarChart2 size={28} strokeWidth={2.5} />
+        <FileBarChart2 size={28} strokeWidth={2.5} color="#3b82f6" />
       </CardHeader>
       <CardContent>
         <p className="text-sm text-muted-foreground">

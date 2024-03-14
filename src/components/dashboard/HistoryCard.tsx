@@ -16,7 +16,7 @@ const HistoryCard = (props: Props) => {
     >
       <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
         <CardTitle className="text-2xl font-bold">History</CardTitle>
-        <FileStack size={28} strokeWidth={2.5} />
+        <FileStack size={28} strokeWidth={2.5} color="#3b82f6" />
       </CardHeader>
       <CardContent>
         <p className="text-sm text-muted-foreground">

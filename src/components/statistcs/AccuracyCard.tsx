@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Target } from "lucide-react";
+import { BarChart3 } from "lucide-react";
 type Props = { accuracy: number };
 
 const AccuracyCard = ({ accuracy }: Props) => {
@@ -10,7 +10,7 @@ const AccuracyCard = ({ accuracy }: Props) => {
     <Card className="md:col-span-7">
       <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
         <CardTitle className="text-2xl font-bold">Average Accuracy</CardTitle>
-        <Target />
+        <BarChart3 color="#3b82f6" />
       </CardHeader>
       <CardContent>
         <div className="text-sm font-medium">{accuracy.toString() + "%"}</div>

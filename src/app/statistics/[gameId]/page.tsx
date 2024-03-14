@@ -1,6 +1,5 @@
 import AccuracyCard from "@/components/statistcs/AccuracyCard";
 import ResultsCard from "@/components/statistcs/ResultsCard";
-import TimeTakenCard from "@/components/statistcs/TimeTakenCard";
 import QuestionsList from "@/components/statistcs/QuestionList";
 import { buttonVariants } from "@/components/ui/button";
 import { prisma } from "@/lib/db";

@@ -1,7 +1,8 @@
 import React from "react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Award, Trophy } from "lucide-react";
+import { Trophy } from "lucide-react";
+import { BookmarkCheck } from "lucide-react";
 type Props = { accuracy: number };
 
 const ResultsCard = ({ accuracy }: Props) => {
@@ -9,7 +10,7 @@ const ResultsCard = ({ accuracy }: Props) => {
     <Card className="md:col-span-7">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-7">
         <CardTitle className="text-2xl font-bold">Results</CardTitle>
-        <Award />
+        <BookmarkCheck color="#3b82f6" />
       </CardHeader>
       <CardContent className="flex flex-col items-center justify-center h-3/5">
         {accuracy > 75 ? (
