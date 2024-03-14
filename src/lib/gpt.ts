@@ -1,6 +1,3 @@
-// this is the gpt function that allows us to prompt gpt, and get it in such a format that
-// we can store the questions and answers
-
 import { Configuration, OpenAIApi } from "openai";
 
 const configuration = new Configuration({

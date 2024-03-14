@@ -5,9 +5,11 @@ import { ZodError } from "zod";
 import { prisma } from "@/lib/db";
 import axios from "axios";
 
+/*
+    TYPE: POST
+    ENDPOINT: /api/game
+*/
 export async function POST(req: Request, res: Response) {
-  console.log("made it to api/game");
-
   try {
     const session = await getAuthSession();
     if (!session?.user) {
@@ -22,13 +24,11 @@ export async function POST(req: Request, res: Response) {
     const body = await req.json();
     const { amount, topic, type } = quizCreationSchema.parse(body);
 
-    // creating a game on our database
-    console.log("This is the amount of questions", amount);
-    console.log(session.user.id, "my session id");
-
-    // accounting for the existing delay created
+    // Calculating time to account for delay
     let time = new Date();
     time.setSeconds(time.getSeconds() + 5);
+
+    // Taking form data, and creating new game on database
     const game = await prisma.game.create({
       data: {
         gameType: type,
@@ -38,25 +38,14 @@ export async function POST(req: Request, res: Response) {
       },
     });
 
-    console.log("this is the game");
-    // making a post request to get the questions
-
-    console.log("before data");
     const { data } = await axios.post(`${process.env.API_URL}/api/questions`, {
       amount,
       topic,
       type,
     });
 
-    console.log(data.status);
     if (data.status === 422) {
-      console.log("in error mode");
-      //   return NextResponse.json({
-      //     message:
-      //       "AI failed to understand topic, please be more specific or try a different topic",
-      //     status: 422,
-      //   });
-      throw new Error("Ai Could not understand");
+      throw new Error("AI Could not understand");
     }
 
     if (type == "mcq") {
@@ -84,24 +73,6 @@ export async function POST(req: Request, res: Response) {
           options: JSON.stringify(options),
           gameId: game.id,
           questionType: "mcq",
-        };
-      });
-
-      await prisma.question.createMany({
-        data: manyData,
-      });
-    } else if (type === "open_ended") {
-      type openQuestion = {
-        question: string;
-        answer: string;
-      };
-
-      let manyData = data.questions.map((question: openQuestion) => {
-        return {
-          question: question.question,
-          answer: question.answer,
-          gameId: game.id,
-          questionType: "open_ended",
         };
       });
 

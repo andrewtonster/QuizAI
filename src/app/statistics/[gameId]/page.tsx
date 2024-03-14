@@ -44,11 +44,6 @@ const StatisticsPage = async ({ params: { gameId } }: Props) => {
       return acc;
     }, 0);
     accuracy = (totalCorrect / game.questions.length) * 100;
-  } else if (game.gameType === "open_ended") {
-    let totalPercentage = game.questions.reduce((acc, question) => {
-      return acc + (question.percentageCorrect ?? 0);
-    }, 0);
-    accuracy = totalPercentage / game.questions.length;
   }
   accuracy = Math.round(accuracy * 100) / 100;
 
@@ -68,10 +63,6 @@ const StatisticsPage = async ({ params: { gameId } }: Props) => {
         <div className="grid gap-4 mt-4 md:grid-cols-7">
           <ResultsCard accuracy={accuracy} />
           <AccuracyCard accuracy={accuracy} />
-          {/* <TimeTakenCard
-            timeEnded={new Date(game.timeEnded ?? 0)}
-            timeStarted={new Date(game.timeStarted ?? 0)}
-          /> */}
         </div>
         <QuestionsList questions={game.questions} />
       </div>

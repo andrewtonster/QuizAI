@@ -11,6 +11,7 @@ import { getAuthSession } from "@/lib/nextauth";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
 import HistoryComponent from "../HistoryComponent";
+import { FileBarChart2 } from "lucide-react";
 type Props = {};
 
 const RecentActivityCard = async (props: Props) => {
@@ -26,14 +27,17 @@ const RecentActivityCard = async (props: Props) => {
 
   return (
     <Card className="col-span-4 lg:col-span-8">
-      <CardHeader>
+      <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
         <CardTitle className="text-2xl font-bold">
           <Link href="/history">Recent Activity</Link>
         </CardTitle>
-        <CardDescription>
-          You have played a total of {gamesCount} games.
-        </CardDescription>
+        <FileBarChart2 size={28} strokeWidth={2.5} />
       </CardHeader>
+      <CardContent>
+        <p className="text-sm text-muted-foreground">
+          You have played a total of {gamesCount} games.
+        </p>
+      </CardContent>
       <CardContent className="max-h-[580px] overflow-scroll">
         <HistoryComponent limit={10} userId={session.user.id} />
       </CardContent>

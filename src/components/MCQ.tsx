@@ -18,9 +18,6 @@ import { buttonVariants } from "./ui/button";
 import { cn, formatTimeDelta } from "@/lib/utils";
 import { differenceInSeconds } from "date-fns";
 import { prisma } from "@/lib/db";
-//  expects a game prop of type Game and another type by selecting properties of existing type
-// only select these types from the Question model from our prisma
-// questions is an array of Question Types
 
 type Props = {
   game: Game & { questions: Pick<Question, "id" | "options" | "question">[] };
@@ -61,7 +58,7 @@ const MCQ = ({ game }: Props) => {
   // memorize a function only redeclare when certain things change
   const handleNext = React.useCallback(() => {
     if (isChecking) return;
-    console.log("handleNext called");
+
     checkAnswer(undefined, {
       onSuccess: ({ isCorrect }) => {
         console.log("CORRECT!");
@@ -94,6 +91,7 @@ const MCQ = ({ game }: Props) => {
     });
   }, [checkAnswer, toast, isChecking, questionIndex, game.questions.length]);
 
+  // Effect to handle keystrokes
   React.useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key == "1") {
@@ -107,15 +105,21 @@ const MCQ = ({ game }: Props) => {
       } else if (event.key === "Enter") {
         handleNext();
       }
-      document.addEventListener("keydown", handleKeyDown);
+    };
 
-      return () => {
-        document.removeEventListener("keydown", handleKeyDown);
-      };
+    document.addEventListener("keydown", handleKeyDown);
+
+    // Removing keydown event listener from the document when component unmounts
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
     };
   }, [handleNext]);
-  // use Memo allows us to calculate difficult task, only whhej soomething in the dependecy array changes
-  // this prevents us from doing expensive calculations every render, instead doing it only one question index or game.questions changes
+
+  /*
+    use Memo allows us to calculate difficult task, only when dependency array changes
+    otherwise remember the value
+  */
+
   const currentQuestion = React.useMemo(() => {
     return game.questions[questionIndex];
   }, [questionIndex, game.questions]);
@@ -126,15 +130,10 @@ const MCQ = ({ game }: Props) => {
     return JSON.parse(currentQuestion.options as string) as string[];
   }, [currentQuestion]);
 
-  //   const updateEndTime = async () => {
-  //     await prisma.game.update({
-  //       where: { id: game.id },
-  //       data: { timeEnded: now },
-  //     });
-  //   };
-
+  /*
+    Render to show ending screen if game ended
+  */
   if (hasEnded) {
-    console.log(game.timeEnded);
     return (
       <div className="absolute flex flex-col justify-center -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
         <div className="px-4 py-2 mt-2 font-semibold text-white bg-green-500 rounded-md whitespace-nowrap">
@@ -155,7 +154,6 @@ const MCQ = ({ game }: Props) => {
     <div className="absolute -translate-x-1/2 -translate-y-1/2 md:w-[80vw] max-w-4xl w-[90vw] top-1/2 left-1/2">
       <div className="flex flex-row justify-between">
         <div className="flex flex-col">
-          {/* topic */}
           <p>
             <span className="text-slate-400">Topic</span> &nbsp;
             <span className="px-2 py-1 text-white rounded-lg bg-slate-800">
@@ -211,7 +209,6 @@ const MCQ = ({ game }: Props) => {
             handleNext();
           }}
         >
-          {isChecking && <Loader2 className="w-4 h-4 mr-2 animated-spin" />}
           Next <ChevronRight className="w-4 h-4 ml-2" />
         </Button>
       </div>

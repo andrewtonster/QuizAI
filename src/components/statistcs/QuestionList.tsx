@@ -24,10 +24,6 @@ const QuestionsList = ({ questions }: Props) => {
           <TableHead className="w-[10px]">No.</TableHead>
           <TableHead>Question & Correct Answer</TableHead>
           <TableHead>Your Answer</TableHead>
-
-          {/* {questions[0].questionType === "open_ended" && (
-            <TableHead className="w-[10px] text-right">Accuracy</TableHead>
-          )} */}
         </TableRow>
       </TableHeader>
       <TableBody>

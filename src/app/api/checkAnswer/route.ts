@@ -4,6 +4,11 @@ import { ZodError } from "zod";
 import { prisma } from "@/lib/db";
 import { compareTwoStrings } from "string-similarity";
 
+/*
+    TYPE: POST
+    ENDPOINT: /api/checkAnswer
+*/
+
 export async function POST(req: Request, res: Response) {
   try {
     const body = await req.json();
@@ -30,6 +35,7 @@ export async function POST(req: Request, res: Response) {
       },
     });
 
+    // comparing user answer to corret answer
     if (question.questionType === "mcq") {
       const isCorrect =
         question.answer.toLowerCase().trim() ===
@@ -48,27 +54,6 @@ export async function POST(req: Request, res: Response) {
         {
           status: 200,
         }
-      );
-    } else if (question.questionType === "open_ended") {
-      let percentageSimilar = compareTwoStrings(
-        question.answer.toLowerCase().trim(),
-        userAnswer.toLowerCase().trim()
-      );
-
-      percentageSimilar = Math.round(percentageSimilar * 100);
-
-      await prisma.question.update({
-        where: { id: questionId },
-        data: {
-          percentageCorrect: percentageSimilar,
-        },
-      });
-
-      return NextResponse.json(
-        {
-          percentageSimilar,
-        },
-        { status: 200 }
       );
     }
   } catch (error) {

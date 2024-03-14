@@ -34,9 +34,8 @@ import { useToast } from "./ui/use-toast";
 
 type Props = {};
 
-type Input = z.infer<typeof quizCreationSchema>; // allows us to put our schema into a type
+type Input = z.infer<typeof quizCreationSchema>;
 
-// we use react hook forms to create our forms
 const QuizCreation = (props: Props) => {
   const [showLoader, setShowLoader] = React.useState(false);
   const [finished, setFinished] = React.useState(false);
@@ -44,7 +43,6 @@ const QuizCreation = (props: Props) => {
   const { toast } = useToast();
 
   // Hook to make api calls
-  // function that preforms mutation is passed
   const { mutate: getQuestions, isLoading } = useMutation({
     mutationFn: async ({ amount, topic, type }: Input) => {
       const response = await axios.post("/api/game", {
@@ -52,9 +50,6 @@ const QuizCreation = (props: Props) => {
         topic,
         type,
       });
-
-      console.log("hello from mutate function");
-      console.log(response.status);
 
       if (response.status !== 200) {
         throw new Error();
@@ -69,7 +64,7 @@ const QuizCreation = (props: Props) => {
     defaultValues: {
       amount: 3,
       topic: "",
-      type: "open_ended",
+      type: "mcq",
     },
   });
 
@@ -90,9 +85,6 @@ const QuizCreation = (props: Props) => {
           }, 1000);
         },
         onError: (error) => {
-          console.log("I am in the error zone");
-          console.log(error);
-
           toast({
             title: "Wrong!",
             description:
@@ -108,10 +100,12 @@ const QuizCreation = (props: Props) => {
 
   form.watch();
 
+  // Show the loading page if submited
   if (showLoader) {
     return <LoadingQuestions finished={finished} />;
   }
 
+  // Show form page
   return (
     <div className="absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
       <Card>
@@ -134,7 +128,9 @@ const QuizCreation = (props: Props) => {
                     <FormControl>
                       <Input placeholder="enter a topic" {...field} />
                     </FormControl>
-                    <FormDescription>Provide a topic</FormDescription>
+                    <FormDescription>
+                      Please be specific so AI can process
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}

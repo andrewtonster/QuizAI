@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
-import { BrainCircuit } from "lucide-react";
+import { BookOpenCheck } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 type Props = {};
@@ -20,11 +20,11 @@ const QuizMeCard = (props: Props) => {
     >
       <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
         <CardTitle className="text-2xl font-bold">Quiz me!</CardTitle>
-        <BrainCircuit size={28} strokeWidth={2.5} />
+        <BookOpenCheck size={28} strokeWidth={2.5} />
       </CardHeader>
       <CardContent>
         <p className="text-sm text-muted-foreground">
-          Challenge yourself to a quiz with a topic of your choice.
+          Test yourself to an AI generated quiz with your topic.
         </p>
       </CardContent>
     </Card>
