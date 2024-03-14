@@ -26,10 +26,13 @@ export async function POST(req: Request, res: Response) {
     console.log("This is the amount of questions", amount);
     console.log(session.user.id, "my session id");
 
+    // accounting for the existing delay created
+    let time = new Date();
+    time.setSeconds(time.getSeconds() + 5);
     const game = await prisma.game.create({
       data: {
         gameType: type,
-        timeStarted: new Date(),
+        timeStarted: time,
         userId: session.user.id,
         topic,
       },

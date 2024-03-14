@@ -116,8 +116,9 @@ const QuizCreation = (props: Props) => {
     <div className="absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
       <Card>
         <CardHeader>
-          <CardTitle className="font-bold text-2x">Quiz Creation</CardTitle>
-          <CardDescription>Choose a topic</CardDescription>
+          <CardTitle className="font-bold text-2x">
+            Test Your Knowledge Here
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <Form {...form}>
@@ -127,7 +128,9 @@ const QuizCreation = (props: Props) => {
                 name="topic"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Topic</FormLabel>
+                    <FormLabel className="text-blue-400 font-bold">
+                      Topic
+                    </FormLabel>
                     <FormControl>
                       <Input placeholder="enter a topic" {...field} />
                     </FormControl>
@@ -141,7 +144,9 @@ const QuizCreation = (props: Props) => {
                 name="amount"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Number of Questions</FormLabel>
+                    <FormLabel className="text-blue-400 font-bold">
+                      Number of Questions
+                    </FormLabel>
                     <FormControl>
                       <Input
                         placeholder="How many questions?"
@@ -169,6 +174,7 @@ const QuizCreation = (props: Props) => {
                 onClick={() => {
                   form.setValue("type", "mcq");
                 }}
+                className="bg-blue-400"
               >
                 Submit
               </Button>
