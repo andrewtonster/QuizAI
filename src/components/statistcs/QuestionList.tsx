@@ -41,19 +41,14 @@ const QuestionsList = ({ questions }: Props) => {
                     <br />
                     <span className="font-semibold">{answer}</span>
                   </TableCell>
-                  {questions[0].questionType === "open_ended" ? (
-                    <TableCell className={`font-semibold`}>
-                      {userAnswer}
-                    </TableCell>
-                  ) : (
-                    <TableCell
-                      className={`${
-                        isCorrect ? "text-green-600" : "text-red-600"
-                      } font-semibold`}
-                    >
-                      {userAnswer}
-                    </TableCell>
-                  )}
+
+                  <TableCell
+                    className={`${
+                      isCorrect ? "text-green-600" : "text-red-600"
+                    } font-semibold`}
+                  >
+                    {userAnswer}
+                  </TableCell>
 
                   {percentageCorrect && (
                     <TableCell className="text-right">
