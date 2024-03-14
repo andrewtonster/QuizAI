@@ -24,9 +24,7 @@ export async function POST(req: Request, res: Response) {
     const body = await req.json();
     const { amount, topic, type } = quizCreationSchema.parse(body);
 
-    // Calculating time to account for delay
     let time = new Date();
-    time.setSeconds(time.getSeconds() + 5);
 
     // Taking form data, and creating new game on database
     const game = await prisma.game.create({
