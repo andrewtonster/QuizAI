@@ -4,7 +4,7 @@ QuizAI utalizes OpenAI to create quiz questions on any topic for users. This web
 
 ## Technologies
 
-React Frontend, SQL database, OpenAI
+React, SQL, OpenAI, Tailwind
 
 ## Demo
 
